@@ -27,7 +27,7 @@ html{-webkit-font-smoothing:antialiased;scroll-behavior:auto}
 body{font-family:var(--ff-body);background:var(--ink);color:var(--paper);line-height:1.6;overflow-x:hidden;cursor:none}
 img,video{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
-.wrap{width:min(100% - 2.8rem,var(--maxw));margin-inline:auto}
+.wrap{width:min(100% - 3.4rem,var(--maxw));margin-inline:auto}
 
 /* ---- Atmosphere ---- */
 .bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -156,8 +156,9 @@ section{position:relative;z-index:2}
 .sec-cta{display:flex;justify-content:center;margin-top:3.4rem}
 
 /* ---- Services ---- */
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
-.svc{position:relative;overflow:hidden;background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:22px;padding:2.2rem 2rem;transition:transform .5s var(--ease),border-color .4s}
+.svc-grid{display:block;max-width:860px;margin-inline:auto}
+.svc{position:sticky;overflow:hidden;background:linear-gradient(160deg,#1e1014,#150b10);border:1px solid var(--line);border-radius:22px;padding:2.4rem 2.2rem;margin-bottom:1.5rem;transition:border-color .4s;box-shadow:0 -16px 54px -26px rgba(0,0,0,.85)}
+.svc:nth-child(1){top:96px}.svc:nth-child(2){top:112px}.svc:nth-child(3){top:128px}.svc:nth-child(4){top:144px}.svc:nth-child(5){top:160px}.svc:nth-child(6){top:176px}
 .svc::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 0 0,rgba(128,18,43,.30),transparent 55%);opacity:0;transition:opacity .5s}
 .svc:hover{transform:translateY(-7px);border-color:rgba(192,31,67,.5)}
 .svc:hover::before{opacity:1}
@@ -374,7 +375,7 @@ section{position:relative;z-index:2}
 <section class="sec" id="servicos">
   <div class="wrap">
     <div class="sec-head rv">
-      <h2>Produção audiovisual <em>de ponta a ponta</em></h2>
+      <h2>Produção audiovisual<br><em>de ponta a ponta</em></h2>
       <p>Da captação à entrega final. Estrutura, equipe e tecnologia para qualquer formato, do estúdio ao grande evento.</p>
     </div>
     <div class="svc-grid">
