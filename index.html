@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRN Streaming — Estúdio de Gravação, Transmissão e Eventos | São Paulo</title>
+<meta name="description" content="Estúdio BRN Streaming: transmissão ao vivo multicâmera, captação audiovisual de eventos, gravação em estúdio, podcast e pós-produção em São Paulo. Seu evento no ar, em alta definição.">
+<meta name="theme-color" content="#0a0708">
+<meta property="og:title" content="BRN Streaming — Estúdio, Transmissão e Eventos">
+<meta property="og:description" content="Transmissão ao vivo, captação de eventos e estúdio de gravação em São Paulo.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wine:#80122B; --wine-bright:#c01f43; --wine-deep:#440a18; --orange:#e0662b; --orange-bright:#ff7e3d;
+  --ink:#0a0708; --ink2:#140a0d; --ink3:#1d1014;
+  --paper:#f4eee9; --muted:#a99098; --line:rgba(255,255,255,.10);
+  --ff-disp:"Bebas Neue",Impact,sans-serif; --ff-head:"Archivo",sans-serif; --ff-body:"Inter",sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1); --maxw:1280px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:auto}
+body{font-family:var(--ff-body);background:var(--ink);color:var(--paper);line-height:1.6;overflow-x:hidden;cursor:none}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(100% - 2.8rem,var(--maxw));margin-inline:auto}
+
+/* ---- Atmosphere ---- */
+.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-fx .neb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;will-change:transform}
+.neb1{width:48vw;height:48vw;background:radial-gradient(circle,rgba(128,18,43,.55),transparent 70%);top:-12%;right:-8%;animation:drift 42s ease-in-out infinite}
+.neb2{width:40vw;height:40vw;background:radial-gradient(circle,rgba(224,102,43,.30),transparent 70%);bottom:-10%;left:-10%;animation:drift 56s ease-in-out infinite reverse}
+.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-50px) scale(1.12)}}
+
+/* ---- Custom cursor ---- */
+.cur,.cur-r{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
+.cur{width:7px;height:7px;background:#fff;transform:translate(-50%,-50%)}
+.cur-r{width:38px;height:38px;border:1px solid rgba(255,255,255,.7);transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s}
+.cur-r.big{width:64px;height:64px;background:rgba(255,255,255,.12)}
+
+/* ---- Intro / vinheta ---- */
+#intro{position:fixed;inset:0;z-index:1000;background:#000;display:grid;place-items:center;overflow:hidden}
+#intro video{width:100%;height:100%;object-fit:cover}
+#intro::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 50%,rgba(0,0,0,.55))}
+#skip{position:absolute;bottom:2rem;right:2rem;z-index:2;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;
+  font-family:var(--ff-head);font-weight:600;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;padding:.7rem 1.3rem;border-radius:100px;cursor:pointer;backdrop-filter:blur(8px);transition:.3s}
+#skip:hover{background:rgba(255,255,255,.16)}
+.curtain{position:fixed;inset:0;z-index:999;background:var(--ink);transform-origin:top;pointer-events:none}
+
+/* ---- Buttons ---- */
+.btn{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--ff-head);font-weight:700;font-size:.95rem;letter-spacing:.01em;
+  padding:1.05rem 1.9rem;border-radius:100px;border:none;cursor:none;position:relative;overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.btn svg{width:18px;height:18px;transition:transform .4s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+.btn-wine{background:linear-gradient(135deg,var(--wine-bright),var(--wine));color:#fff;box-shadow:0 16px 38px -14px rgba(192,31,67,.8)}
+.btn-wine:hover{transform:translateY(-3px);box-shadow:0 24px 50px -16px rgba(192,31,67,.95)}
+.btn-ghost{background:rgba(255,255,255,.04);color:#fff;border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px)}
+.btn-ghost:hover{background:rgba(255,255,255,.10);transform:translateY(-3px)}
+
+/* ---- Progress bar ---- */
+#prog{position:fixed;top:0;left:0;height:3px;width:100%;transform:scaleX(0);transform-origin:left;z-index:200;
+  background:linear-gradient(90deg,var(--wine),var(--orange));}
+
+/* ---- Nav ---- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:150;padding:1.1rem 0;transition:padding .4s var(--ease)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:.5rem .6rem .5rem 1.3rem;border-radius:100px;
+  border:1px solid transparent;transition:background .4s,border-color .4s,backdrop-filter .4s}
+.nav.scrolled .nav-inner{background:rgba(10,7,8,.7);border-color:var(--line);backdrop-filter:blur(16px) saturate(140%)}
+.nav .logo{height:34px;width:auto}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{font-family:var(--ff-head);font-weight:600;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.72);transition:color .3s}
+.nav-links a:hover{color:#fff}
+.nav-cta{padding:.7rem 1.35rem;font-size:.82rem}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:.5rem}
+.burger span{width:24px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+
+/* ---- Hero ---- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;z-index:2}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.hero-shade{position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(180deg,rgba(10,7,8,.55) 0%,rgba(10,7,8,.35) 40%,rgba(10,7,8,.92) 100%),
+  radial-gradient(120% 90% at 20% 30%,rgba(128,18,43,.45),transparent 60%)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center;width:100%;padding:9rem 0 4rem}
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--ff-head);font-weight:700;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--orange-bright);margin-bottom:1.4rem}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--orange)}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 0 0 rgba(255,59,59,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,59,59,.6)}70%{box-shadow:0 0 0 10px rgba(255,59,59,0)}100%{box-shadow:0 0 0 0 rgba(255,59,59,0)}}
+h1.title{font-family:var(--ff-disp);font-weight:400;font-size:clamp(3.4rem,9vw,7.2rem);line-height:.92;letter-spacing:.01em;text-transform:uppercase}
+h1.title .ln{display:block;overflow:hidden}
+h1.title .ln>span{display:block;transform:translateY(105%)}
+h1.title em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--orange)}
+.hero-sub{font-size:1.18rem;color:rgba(255,255,255,.8);max-width:32rem;margin:1.6rem 0 2.4rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.hero-stats{display:flex;gap:2.4rem;margin-top:3rem;padding-top:1.8rem;border-top:1px solid var(--line)}
+.hero-stats .n{font-family:var(--ff-disp);font-size:2.6rem;line-height:1;color:#fff}
+.hero-stats .l{font-size:.78rem;color:var(--muted);letter-spacing:.02em;margin-top:.3rem}
+.hero-side{position:relative}
+.hero-card{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:20px;padding:1.5rem;backdrop-filter:blur(14px);box-shadow:0 30px 70px -30px rgba(0,0,0,.8)}
+.hero-card h4{font-family:var(--ff-head);font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-bright);margin-bottom:1rem}
+.hc-row{display:flex;align-items:center;gap:.8rem;padding:.7rem 0;border-top:1px solid var(--line);font-size:.95rem}
+.hc-row:first-of-type{border-top:none}
+.hc-row .ic{width:34px;height:34px;border-radius:9px;background:rgba(128,18,43,.45);display:grid;place-items:center;flex-shrink:0}
+.hc-row .ic svg{width:17px;height:17px;stroke:#fff}
+.scroll-cue{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);font-family:var(--ff-head);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.scroll-cue .bar{width:1px;height:40px;background:linear-gradient(var(--orange),transparent);animation:cue 2s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ---- Marquee ---- */
+.marquee{position:relative;z-index:2;background:var(--wine-deep);border-block:1px solid rgba(255,255,255,.08);padding:1rem 0;overflow:hidden;white-space:nowrap}
+.mq-track{display:inline-flex;gap:2.6rem;animation:mq 32s linear infinite;will-change:transform}
+.mq-track span{font-family:var(--ff-disp);font-size:1.5rem;letter-spacing:.04em;color:rgba(255,255,255,.62);display:inline-flex;align-items:center;gap:2.6rem;text-transform:uppercase}
+.mq-track span::after{content:"●";color:var(--orange);font-size:.6rem}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---- Section base ---- */
+section{position:relative;z-index:2}
+.sec{padding:7.5rem 0}
+.sec-head{max-width:46rem;margin-bottom:3.6rem}
+.sec-head.center{margin-inline:auto;text-align:center}
+.tag{font-family:var(--ff-head);font-weight:700;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-bright);display:inline-block;margin-bottom:1rem}
+.sec-head h2{font-family:var(--ff-disp);font-weight:400;font-size:clamp(2.6rem,6vw,4.6rem);line-height:.96;text-transform:uppercase}
+.sec-head h2 em{font-style:normal;color:var(--orange)}
+.sec-head p{color:var(--muted);font-size:1.08rem;margin-top:1.1rem}
+.sec-cta{display:flex;justify-content:center;margin-top:3.4rem}
+
+/* ---- Services ---- */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.svc{position:relative;overflow:hidden;background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:22px;padding:2.2rem 2rem;transition:transform .5s var(--ease),border-color .4s}
+.svc::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 0 0,rgba(128,18,43,.30),transparent 55%);opacity:0;transition:opacity .5s}
+.svc:hover{transform:translateY(-7px);border-color:rgba(192,31,67,.5)}
+.svc:hover::before{opacity:1}
+.svc .num{position:absolute;top:1.6rem;right:1.8rem;font-family:var(--ff-disp);font-size:1.3rem;color:rgba(255,255,255,.18)}
+.svc .ic{width:56px;height:56px;border-radius:15px;background:linear-gradient(135deg,var(--wine),var(--wine-deep));display:grid;place-items:center;margin-bottom:1.4rem;box-shadow:0 10px 26px -10px rgba(128,18,43,.9)}
+.svc .ic svg{width:27px;height:27px;stroke:#fff}
+.svc h3{font-family:var(--ff-head);font-weight:700;font-size:1.32rem;margin-bottom:.5rem}
+.svc p{font-size:.95rem;color:var(--muted)}
+
+/* ---- Showcase / reel ---- */
+.reel{position:relative}
+.reel-stage{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 50px 120px -40px rgba(0,0,0,.9);border:1px solid var(--line);cursor:none}
+.reel-stage video{width:100%;height:100%;object-fit:cover}
+.reel-stage .play{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 50%,rgba(10,7,8,.25),rgba(10,7,8,.7));transition:opacity .5s}
+.reel-stage.playing .play{opacity:0;pointer-events:none}
+.play-btn{width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(8px);display:grid;place-items:center;transition:transform .4s var(--ease),background .3s}
+.reel-stage:hover .play-btn{transform:scale(1.08);background:rgba(192,31,67,.5)}
+.play-btn svg{width:30px;height:30px;fill:#fff;margin-left:4px}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+.thumb{position:relative;aspect-ratio:1/1;border-radius:16px;overflow:hidden;border:1px solid var(--line);cursor:none}
+.thumb img,.thumb video{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.thumb video{position:absolute;inset:0;opacity:0;transition:opacity .5s}
+.thumb:hover video{opacity:1}
+.thumb:hover img{transform:scale(1.08)}
+.thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(128,18,43,.5),transparent 60%);opacity:.5;transition:opacity .4s}
+.thumb:hover::after{opacity:0}
+.thumb .cap{position:absolute;left:.9rem;bottom:.7rem;font-family:var(--ff-head);font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;z-index:2}
+
+/* ---- About / estrutura ---- */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-media{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);box-shadow:0 50px 110px -40px rgba(0,0,0,.85)}
+.about-media video{width:100%;height:100%;object-fit:cover}
+.about-media .lb{position:absolute;left:0;right:0;height:14%;background:var(--ink);z-index:2}
+.about-media .lb.t{top:0}.about-media .lb.b{bottom:0}
+.about h2{font-family:var(--ff-disp);font-size:clamp(2.2rem,5vw,3.6rem);line-height:.98;text-transform:uppercase;margin-bottom:1.3rem}
+.about p{color:var(--muted);font-size:1.05rem;margin-bottom:1.1rem}
+.about-list{list-style:none;display:grid;gap:.9rem;margin-top:1.6rem}
+.about-list li{display:flex;gap:.8rem;align-items:flex-start;font-size:1rem}
+.about-list svg{width:22px;height:22px;stroke:var(--orange);flex-shrink:0;margin-top:2px}
+
+/* ---- Stats band ---- */
+.stats{background:linear-gradient(135deg,var(--wine-deep),var(--ink2));border-block:1px solid var(--line)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.stat .n{font-family:var(--ff-disp);font-size:clamp(3rem,6vw,4.8rem);line-height:1;background:linear-gradient(180deg,#fff,var(--orange));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat .l{font-size:.86rem;color:var(--muted);letter-spacing:.04em;margin-top:.4rem}
+
+/* ---- CTA ---- */
+.cta{text-align:center;overflow:hidden}
+.cta-inner{position:relative;z-index:2;max-width:48rem;margin-inline:auto}
+.cta h2{font-family:var(--ff-disp);font-size:clamp(2.8rem,7vw,5.5rem);line-height:.95;text-transform:uppercase;margin-bottom:1.2rem}
+.cta h2 em{font-style:normal;color:var(--orange)}
+.cta p{color:rgba(255,255,255,.78);font-size:1.12rem;margin-bottom:2.4rem}
+
+/* ---- Footer ---- */
+.footer{background:var(--ink2);border-top:1px solid var(--line);padding:4.5rem 0 2.2rem;position:relative;z-index:2}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1.2fr;gap:2.5rem;padding-bottom:2.8rem;border-bottom:1px solid var(--line)}
+.footer .logo{height:42px;margin-bottom:1.2rem}
+.footer p{font-size:.92rem;color:var(--muted);max-width:24rem}
+.footer h4{font-family:var(--ff-head);font-weight:700;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--orange-bright);margin-bottom:1.1rem}
+.footer ul{list-style:none;display:grid;gap:.7rem}
+.footer a,.footer li{font-size:.95rem;color:var(--muted);transition:color .3s}
+.footer a:hover{color:#fff}
+.foot-bottom{padding-top:1.8rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.82rem;color:rgba(255,255,255,.35)}
+
+/* ---- WhatsApp float ---- */
+.wfloat{position:fixed;bottom:1.6rem;right:1.6rem;z-index:140;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 12px 30px -8px rgba(37,211,102,.7);transition:transform .4s var(--ease);cursor:none}
+.wfloat:hover{transform:scale(1.1)}
+.wfloat svg{width:30px;height:30px;fill:#fff}
+
+/* ---- Reveal ---- */
+.rv{opacity:0;transform:translateY(40px) scale(1.04);filter:blur(10px);transition:opacity 1s var(--ease),transform 1s var(--ease),filter 1s var(--ease)}
+.rv.in{opacity:1;transform:none;filter:blur(0)}
+.rv[data-d="1"]{transition-delay:.1s}.rv[data-d="2"]{transition-delay:.2s}.rv[data-d="3"]{transition-delay:.3s}.rv[data-d="4"]{transition-delay:.4s}.rv[data-d="5"]{transition-delay:.5s}
+
+/* ---- Atmospheric divider ---- */
+.divider{height:220px;margin:-110px 0;position:relative;z-index:1;pointer-events:none}
+.divider::before{content:"";position:absolute;inset:0;filter:blur(30px);
+  background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(128,18,43,.5),transparent 70%),radial-gradient(ellipse 50% 30% at 70% 40%,rgba(224,102,43,.25),transparent 65%)}
+
+/* ---- Responsive ---- */
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:2.5rem}
+  .hero-side{max-width:24rem}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr;gap:2.5rem}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:2.4rem}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .thumbs{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:680px){
+  body{cursor:auto}.cur,.cur-r{display:none}
+  .nav-links{display:none}.burger{display:flex}
+  .sec{padding:4.8rem 0}
+  .hero-grid{padding:7.5rem 0 3rem}
+  .hero-stats{gap:1.4rem}
+  .svc-grid{grid-template-columns:1fr}
+  .thumbs{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:1.6rem}
+  .footer-grid{grid-template-columns:1fr}
+  #skip{bottom:1.2rem;right:1.2rem}
+  .btn{cursor:pointer}.wfloat{cursor:pointer}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}}
+</style>
+</head>
+<body>
+
+<div class="bg-fx"><span class="neb neb1"></span><span class="neb neb2"></span></div>
+<div class="noise"></div>
+<div class="cur"></div><div class="cur-r"></div>
+<div id="prog"></div>
+
+<!-- INTRO VINHETA -->
+<div id="intro">
+  <video id="introVid" src="assets/vinheta.mp4" muted playsinline autoplay preload="auto" poster="assets/vinheta-end.jpg"></video>
+  <button id="skip">Pular intro ✕</button>
+</div>
+<div class="curtain" id="curtain" style="display:none"></div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#topo" data-hover><img src="assets/logo-white.png" alt="BRN Streaming" class="logo"></a>
+    <nav class="nav-links">
+      <a href="#servicos" data-hover>Serviços</a>
+      <a href="#reel" data-hover>Portfólio</a>
+      <a href="#estudio" data-hover>O Estúdio</a>
+      <a href="#contato" data-hover>Contato</a>
+    </nav>
+    <a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="btn btn-wine nav-cta" data-hover>Orçamento</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="topo">
+  <video class="hero-video" autoplay muted loop playsinline poster="assets/hero-poster.jpg">
+    <source src="assets/hero-bg.mp4" type="video/mp4">
+  </video>
+  <div class="hero-shade"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="live-dot"></span>Estúdio · Transmissão · Eventos</span>
+      <h1 class="title">
+        <span class="ln"><span>Seu evento</span></span>
+        <span class="ln"><span>no ar, em</span></span>
+        <span class="ln"><span><em>alta definição.</em></span></span>
+      </h1>
+      <p class="hero-sub">Transmissão ao vivo multicâmera, captação audiovisual e estúdio de gravação. A BRN coloca a sua marca, o seu evento e a sua história na tela com qualidade de broadcast.</p>
+      <div class="hero-actions">
+        <a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="btn btn-wine" data-hover>Solicitar orçamento
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#reel" class="btn btn-ghost" data-hover>Ver portfólio</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="n" data-count="500" data-suf="+">0</div><div class="l">transmissões no ar</div></div>
+        <div><div class="n" data-count="12" data-suf="">0</div><div class="l">câmeras simultâneas</div></div>
+        <div><div class="n" data-count="100" data-suf="%">0</div><div class="l">qualidade broadcast</div></div>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="hero-card" data-tilt>
+        <h4>No ar agora</h4>
+        <div class="hc-row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span>Transmissão multicâmera ao vivo</div>
+        <div class="hc-row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg></span>Estúdio de podcast e gravação</div>
+        <div class="hc-row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 7h18v13H3zM8 7V4h8v3M3 12h18"/></svg></span>Cobertura completa de eventos</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span class="bar"></span>Scroll</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="mq-track">
+    <span>Transmissão ao vivo</span><span>Captação multicâmera</span><span>Estúdio de gravação</span><span>Eventos corporativos</span><span>Podcast</span><span>Pós-produção</span>
+    <span>Transmissão ao vivo</span><span>Captação multicâmera</span><span>Estúdio de gravação</span><span>Eventos corporativos</span><span>Podcast</span><span>Pós-produção</span>
+  </div>
+</div>
+
+<!-- SERVIÇOS -->
+<section class="sec" id="servicos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="tag">O que fazemos</span>
+      <h2>Produção audiovisual <em>de ponta a ponta</em></h2>
+      <p>Da captação à entrega final. Estrutura, equipe e tecnologia para qualquer formato, do estúdio ao grande evento.</p>
+    </div>
+    <div class="svc-grid">
+      <article class="svc rv" data-d="1" data-hover><span class="num">01</span>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <h3>Transmissão ao vivo</h3><p>Streaming multicâmera para YouTube, Instagram, plataformas e telões. Direção de corte em tempo real e sinal estável.</p></article>
+      <article class="svc rv" data-d="2" data-hover><span class="num">02</span>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M3 7h13v10H3zM16 10l5-3v10l-5-3"/></svg></div>
+        <h3>Captação de eventos</h3><p>Congressos, shows, cultos, lançamentos e corporativos. Registramos cada momento com múltiplos ângulos e áudio limpo.</p></article>
+      <article class="svc rv" data-d="3" data-hover><span class="num">03</span>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg></div>
+        <h3>Estúdio de gravação</h3><p>Ambiente equipado para podcast, entrevistas, vídeos e chroma. Estrutura pronta para você só chegar e gravar.</p></article>
+      <article class="svc rv" data-d="1" data-hover><span class="num">04</span>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M2 6h20v12H2zM7 6V3h10v3"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>Vídeos institucionais</h3><p>Filmes de marca, publicidade e conteúdo para redes. Roteiro, captação e direção que comunicam com força.</p></article>
+      <article class="svc rv" data-d="2" data-hover><span class="num">05</span>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M4 4h16v16H4zM4 9h16M9 4v16"/><path d="m13 12 4 2-4 2v-4z"/></svg></div>
+        <h3>Pós-produção</h3><p>Edição, motion graphics, color grading e tratamento de áudio. O acabamento que separa o amador do profissional.</p></article>
+      <article class="svc rv" data-d="3" data-hover><span class="num">06</span>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>Estrutura completa</h3><p>Switcher, iluminação, áudio, telões e equipe técnica. Entregamos a operação inteira, do projeto ao "no ar".</p></article>
+    </div>
+    <div class="sec-cta rv"><a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="btn btn-wine" data-hover>Quero um orçamento <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REEL / SHOWCASE -->
+<section class="sec" id="reel">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <span class="tag">Portfólio</span>
+      <h2>O que sai do nosso <em>switcher</em></h2>
+      <p>Um recorte do que produzimos. Passe o mouse para ver em movimento.</p>
+    </div>
+    <div class="reel rv">
+      <div class="reel-stage" id="reelStage" data-hover>
+        <video id="reelVid" src="assets/vinheta.mp4" loop playsinline poster="assets/showcase/vin-2.jpg"></video>
+        <div class="play"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <div class="thumbs">
+        <div class="thumb rv" data-d="1" data-hover><img src="assets/showcase/bg-3.jpg" alt="Transmissão"><video src="assets/hero-bg.mp4" muted loop playsinline preload="none"></video><span class="cap">Transmissão</span></div>
+        <div class="thumb rv" data-d="2" data-hover><img src="assets/showcase/vin-3.jpg" alt="Motion"><span class="cap">Motion</span></div>
+        <div class="thumb rv" data-d="3" data-hover><img src="assets/showcase/bg-1.jpg" alt="Control room"><span class="cap">Direção</span></div>
+        <div class="thumb rv" data-d="4" data-hover><img src="assets/showcase/vin-1.jpg" alt="Abertura"><span class="cap">Vinheta</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTÚDIO / SOBRE -->
+<section class="sec about" id="estudio">
+  <div class="wrap about-grid">
+    <div class="about-media rv" data-hover>
+      <span class="lb t"></span><span class="lb b"></span>
+      <video autoplay muted loop playsinline poster="assets/hero-poster.jpg"><source src="assets/hero-bg.mp4" type="video/mp4"></video>
+    </div>
+    <div class="about rv" data-d="1">
+      <span class="tag">O Estúdio</span>
+      <h2>Tecnologia de broadcast,<br>cuidado de gente que ama o ofício</h2>
+      <p>A BRN Streaming nasceu para entregar o nível de TV para qualquer marca, evento ou criador. Estrutura de transmissão profissional, estúdio equipado e uma equipe que trata cada projeto como se fosse a final do campeonato.</p>
+      <ul class="about-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Mesa de corte e switcher multicâmera</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Áudio, iluminação e cenografia próprios</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Equipe técnica experiente em ao vivo</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Localizado em São Paulo, atendendo todo o Brasil</li>
+      </ul>
+      <div style="margin-top:2rem"><a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20conhecer%20o%20est%C3%BAdio%20da%20BRN." class="btn btn-ghost" data-hover>Agendar uma visita</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="sec stats">
+  <div class="wrap stats-grid">
+    <div class="stat rv" data-d="1"><div class="n" data-count="500" data-suf="+">0</div><div class="l">eventos no ar</div></div>
+    <div class="stat rv" data-d="2"><div class="n" data-count="12" data-suf="">0</div><div class="l">câmeras simultâneas</div></div>
+    <div class="stat rv" data-d="3"><div class="n" data-count="8" data-suf="+">0</div><div class="l">anos de estrada</div></div>
+    <div class="stat rv" data-d="4"><div class="n" data-count="100" data-suf="%">0</div><div class="l">sinal estável</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="sec cta" id="contato">
+  <span class="neb neb1" style="position:absolute;top:-40%;left:30%;opacity:.4"></span>
+  <div class="wrap cta-inner rv">
+    <span class="tag">Bora gravar?</span>
+    <h2>Coloque a sua marca <em>no ar</em></h2>
+    <p>Conte o que você precisa transmitir, gravar ou produzir. A gente monta a estrutura ideal e cuida de tudo, do projeto ao "estamos no ar".</p>
+    <div class="hero-actions" style="justify-content:center">
+      <a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="btn btn-wine" data-hover>Falar no WhatsApp
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="https://instagram.com/brnestudio" target="_blank" rel="noopener" class="btn btn-ghost" data-hover>Ver no Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <img src="assets/logo-white.png" alt="BRN Streaming" class="logo">
+        <p>Estúdio de gravação, transmissão ao vivo e produção audiovisual para eventos em geral. Qualidade de broadcast para a sua marca.</p>
+      </div>
+      <div>
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#servicos">Transmissão ao vivo</a></li>
+          <li><a href="#servicos">Captação de eventos</a></li>
+          <li><a href="#servicos">Estúdio de gravação</a></li>
+          <li><a href="#servicos">Pós-produção</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="https://wa.me/5511937193435">WhatsApp · (11) 93719-3435</a></li>
+          <li><a href="https://instagram.com/brnestudio" target="_blank" rel="noopener">@brnestudio</a></li>
+          <li>Rua Álvaro Rodrigues, 488</li>
+          <li>São Paulo · SP · 04582-001</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 BRN Streaming. Todos os direitos reservados.</span>
+      <span>No ar, sempre.</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="wfloat" aria-label="WhatsApp" target="_blank" rel="noopener" data-hover>
+  <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5L8.8 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2 0 1.3.9 2.5 1.1 2.7.2.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.3-.6-.4M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2"/></svg>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const touch = matchMedia('(hover: none)').matches || innerWidth < 681;
+
+/* ---------- INTRO VINHETA ---------- */
+const intro = document.getElementById('intro');
+const introVid = document.getElementById('introVid');
+const curtain = document.getElementById('curtain');
+let introDone = false;
+function endIntro(){
+  if(introDone) return; introDone = true;
+  try{ introVid.pause(); }catch(e){}
+  curtain.style.display = 'block';
+  gsap.timeline()
+    .to(intro, {opacity:0, duration:.6, ease:'power2.inOut'})
+    .set(intro, {display:'none'})
+    .fromTo(curtain, {scaleY:1, transformOrigin:'top'}, {scaleY:0, duration:1.1, ease:'power4.inOut'}, '-=.1')
+    .add(startHero, '-=.7')
+    .set(curtain, {display:'none'});
+}
+introVid.addEventListener('ended', endIntro);
+document.getElementById('skip').addEventListener('click', endIntro);
+introVid.play && introVid.play().catch(()=>{});
+setTimeout(()=>{ if(!introDone) endIntro(); }, 8500); // failsafe
+
+/* ---------- HERO ENTRANCE ---------- */
+function startHero(){
+  if(reduce){ document.querySelectorAll('h1.title .ln>span').forEach(s=>s.style.transform='none'); return; }
+  gsap.timeline({defaults:{ease:'power3.out'}})
+    .to('h1.title .ln>span', {y:0, duration:1, stagger:.12})
+    .from('.eyebrow', {y:14, opacity:0, duration:.7}, 0)
+    .from('.hero-sub', {y:20, opacity:0, duration:.8}, '-=.6')
+    .from('.hero-actions', {y:20, opacity:0, duration:.7}, '-=.6')
+    .from('.hero-stats', {y:20, opacity:0, duration:.7}, '-=.5')
+    .from('.hero-side', {y:30, opacity:0, duration:.9, ease:'back.out(1.3)'}, '-=.7')
+    .add(runCounters);
+}
+
+/* ---------- LENIS + SCROLLTRIGGER ---------- */
+let lenis;
+if(!reduce){
+  lenis = new Lenis({duration:1.05, lerp:.1, smoothWheel:true});
+  lenis.on('scroll', ()=>ScrollTrigger.update());
+  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); lenis ? lenis.scrollTo(t,{offset:-70,duration:1.2}) : t.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+/* ---------- NAV ---------- */
+const nav = document.getElementById('nav');
+addEventListener('scroll', ()=>nav.classList.toggle('scrolled', scrollY>50), {passive:true});
+const burger = document.getElementById('burger');
+burger && burger.addEventListener('click', ()=>{
+  const links = document.querySelector('.nav-links');
+  const open = links.style.display==='flex';
+  Object.assign(links.style, open?{display:''}:{display:'flex',position:'absolute',top:'110%',right:'0',flexDirection:'column',background:'rgba(10,7,8,.96)',padding:'1.2rem 1.6rem',borderRadius:'16px',gap:'1rem',backdropFilter:'blur(12px)'});
+});
+
+/* ---------- REVEAL ---------- */
+const io = new IntersectionObserver((ents)=>{
+  ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
+}, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* ---------- COUNTERS ---------- */
+let counted = false;
+function runCounters(){ /* hero counters fire after intro */
+  animateSet(document.querySelectorAll('.hero-stats [data-count]'));
+}
+function animateSet(nodes){
+  nodes.forEach(el=>{
+    const target = +el.dataset.count, suf = el.dataset.suf||'';
+    if(reduce){ el.textContent = target+suf; return; }
+    const o = {v:0};
+    gsap.to(o, {v:target, duration:1.8, ease:'power2.out', onUpdate:()=>{ el.textContent = Math.floor(o.v)+suf; }});
+  });
+}
+ScrollTrigger.create({trigger:'.stats', start:'top 80%', once:true, onEnter:()=>animateSet(document.querySelectorAll('.stats [data-count]'))});
+
+/* ---------- PROGRESS BAR ---------- */
+ScrollTrigger.create({start:0, end:'max', onUpdate:s=>{ document.getElementById('prog').style.transform=`scaleX(${s.progress})`; }});
+
+/* ---------- HERO PARALLAX ---------- */
+if(!reduce){
+  gsap.to('.hero-video', {yPercent:12, scale:1.06, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:1}});
+  gsap.utils.toArray('.neb').forEach((n,i)=>{
+    gsap.to(n, {yPercent:i%2?20:-20, ease:'none', scrollTrigger:{start:0,end:'max',scrub:1.5}});
+  });
+}
+
+/* ---------- REEL PLAY ---------- */
+const reelStage = document.getElementById('reelStage');
+const reelVid = document.getElementById('reelVid');
+reelStage.addEventListener('click', ()=>{
+  if(reelVid.paused){ reelVid.muted=false; reelVid.play(); reelStage.classList.add('playing'); }
+  else { reelVid.pause(); reelStage.classList.remove('playing'); }
+});
+/* thumb hover videos */
+document.querySelectorAll('.thumb video').forEach(v=>{
+  const p = v.closest('.thumb');
+  p.addEventListener('mouseenter', ()=>{ v.play().catch(()=>{}); });
+  p.addEventListener('mouseleave', ()=>{ v.pause(); v.currentTime=0; });
+});
+
+/* ---------- TILT ---------- */
+if(!touch){
+  document.querySelectorAll('[data-tilt]').forEach(el=>{
+    el.addEventListener('mousemove', e=>{
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      el.style.transform = `rotateY(${x*7}deg) rotateX(${-y*7}deg)`;
+    });
+    el.addEventListener('mouseleave', ()=>{ el.style.transform=''; });
+    el.style.transition='transform .4s var(--ease)';
+  });
+}
+
+/* ---------- CUSTOM CURSOR ---------- */
+if(!touch){
+  const dot = document.querySelector('.cur'), ring = document.querySelector('.cur-r');
+  let mx=0,my=0,rx=0,ry=0;
+  addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`; });
+  (function loop(){ rx+=(mx-rx)*.18; ry+=(my-ry)*.18; ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`; requestAnimationFrame(loop); })();
+  document.querySelectorAll('[data-hover]').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>ring.classList.add('big'));
+    el.addEventListener('mouseleave', ()=>ring.classList.remove('big'));
+  });
+}
+</script>
+</body>
+</html>
