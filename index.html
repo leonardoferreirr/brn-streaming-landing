@@ -119,6 +119,31 @@ h1.title em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--
 .mq-track span::after{content:"●";color:var(--orange);font-size:.6rem}
 @keyframes mq{to{transform:translateX(-50%)}}
 
+/* ---- Client logos carousel ---- */
+.logos-sec{position:relative;z-index:2;padding:2.8rem 0;background:linear-gradient(180deg,var(--ink),var(--ink2));border-block:1px solid var(--line);overflow:hidden}
+.logos-title{text-align:center;font-family:var(--ff-head);font-weight:600;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.9rem}
+.logos-mq{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.logos-track{display:inline-flex;align-items:center;gap:4.5rem;animation:mq 36s linear infinite;will-change:transform;white-space:nowrap}
+.logos-track img{height:36px;width:auto;object-fit:contain;filter:brightness(0) invert(1);opacity:.7;transition:opacity .3s,transform .3s;flex-shrink:0}
+.logos-track img:hover{opacity:1;transform:scale(1.07)}
+.logo-text{font-family:var(--ff-disp);font-size:1.8rem;letter-spacing:.02em;color:#fff;opacity:.7;text-transform:uppercase;flex-shrink:0}
+.logos-sec:hover .logos-track{animation-play-state:paused}
+
+/* ---- Portfolio mosaic ---- */
+.mosaic-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);aspect-ratio:4/3;gap:1rem;grid-auto-flow:dense}
+.mz{position:relative;overflow:hidden;border-radius:16px;border:1px solid var(--line);cursor:none}
+.m2x1{grid-column:span 2}.m1x2{grid-row:span 2}
+.mz img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
+.mz:hover img{transform:scale(1.07)}
+.mz figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.5rem 1.2rem .95rem;background:linear-gradient(transparent,rgba(10,7,8,.9));z-index:2}
+.mz figcaption b{font-family:var(--ff-head);font-weight:700;font-size:1rem;display:block}
+.mz figcaption span{font-size:.8rem;color:var(--muted)}
+.mz::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 0 var(--wine-bright);transition:box-shadow .4s;z-index:1;pointer-events:none;border-radius:16px}
+.mz:hover::after{box-shadow:inset 0 0 0 2px var(--wine-bright)}
+.mz-more{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;text-align:center;background:linear-gradient(135deg,var(--wine),var(--wine-deep))}
+.mz-more .more-plus{font-family:var(--ff-disp);font-size:clamp(2rem,4vw,3rem);color:#fff;line-height:1}
+.mz-more .more-sub{font-size:.85rem;color:rgba(255,255,255,.82);padding:0 1rem}
+
 /* ---- Section base ---- */
 section{position:relative;z-index:2}
 .sec{padding:7.5rem 0}
@@ -200,7 +225,8 @@ section{position:relative;z-index:2}
 .stat .l{font-size:.86rem;color:var(--muted);letter-spacing:.04em;margin-top:.4rem}
 
 /* ---- CTA ---- */
-.cta{text-align:center;overflow:hidden}
+.cta{text-align:center;overflow:hidden;padding:5rem 0!important}
+.br-m{display:none}.br-d{display:inline}
 .cta-inner{position:relative;z-index:2;max-width:48rem;margin-inline:auto}
 .cta h2{font-family:var(--ff-disp);font-size:clamp(2.8rem,7vw,5.5rem);line-height:.95;text-transform:uppercase;margin-bottom:1.2rem}
 .cta h2 em{font-style:normal;color:var(--orange)}
@@ -242,6 +268,7 @@ section{position:relative;z-index:2}
   .footer-grid{grid-template-columns:1fr 1fr}
   .thumbs{grid-template-columns:repeat(3,1fr)}
   .pf-grid{grid-template-columns:1fr 1fr}
+  .mosaic-grid{aspect-ratio:auto;grid-template-rows:none;grid-auto-rows:210px}
 }
 @media(max-width:680px){
   body{cursor:auto}.cur,.cur-r{display:none}
@@ -255,6 +282,9 @@ section{position:relative;z-index:2}
   .pf-grid{grid-template-columns:1fr 1fr}
   .pf-wide{grid-column:span 2;aspect-ratio:16/10}
   .clients-row{gap:1rem}
+  .mosaic-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:148px;gap:.7rem}
+  .br-m{display:inline}.br-d{display:none}
+  .logos-track{gap:3rem}.logos-track img{height:30px}.logo-text{font-size:1.5rem}
   .footer-grid{grid-template-columns:1fr}
   #skip{bottom:1.2rem;right:1.2rem}
   .btn{cursor:pointer}.wfloat{cursor:pointer}
@@ -293,8 +323,8 @@ section{position:relative;z-index:2}
 
 <!-- HERO -->
 <section class="hero" id="topo">
-  <video class="hero-video" autoplay muted loop playsinline poster="assets/hero-client-poster.jpg" style="object-position:center right">
-    <source src="assets/hero-client.mp4" type="video/mp4">
+  <video class="hero-video" autoplay muted loop playsinline poster="assets/hero-mix-poster.jpg">
+    <source src="assets/hero-mix.mp4" type="video/mp4">
   </video>
   <div class="hero-shade"></div>
   <div class="wrap hero-grid">
@@ -329,13 +359,16 @@ section{position:relative;z-index:2}
   <div class="scroll-cue"><span class="bar"></span>Scroll</div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="mq-track">
-    <span>Transmissão ao vivo</span><span>Captação multicâmera</span><span>Estúdio de gravação</span><span>Eventos corporativos</span><span>Podcast</span><span>Pós-produção</span>
-    <span>Transmissão ao vivo</span><span>Captação multicâmera</span><span>Estúdio de gravação</span><span>Eventos corporativos</span><span>Podcast</span><span>Pós-produção</span>
+<!-- CLIENT LOGOS -->
+<section class="logos-sec">
+  <p class="logos-title">Marcas que já estiveram no ar com a BRN</p>
+  <div class="logos-mq">
+    <div class="logos-track">
+      <img src="assets/logos/conmebol.svg" alt="CONMEBOL"><img src="assets/logos/smartfit.svg" alt="Smart Fit"><img src="assets/logos/hering.svg" alt="Hering"><img src="assets/logos/unilever.svg" alt="Unilever"><span class="logo-text">Sorridents</span><img src="assets/logos/panasonic.svg" alt="Panasonic"><img src="assets/logos/avon.svg" alt="Avon"><img src="assets/logos/fiat.svg" alt="Fiat">
+      <img src="assets/logos/conmebol.svg" alt="CONMEBOL"><img src="assets/logos/smartfit.svg" alt="Smart Fit"><img src="assets/logos/hering.svg" alt="Hering"><img src="assets/logos/unilever.svg" alt="Unilever"><span class="logo-text">Sorridents</span><img src="assets/logos/panasonic.svg" alt="Panasonic"><img src="assets/logos/avon.svg" alt="Avon"><img src="assets/logos/fiat.svg" alt="Fiat">
+    </div>
   </div>
-</div>
+</section>
 
 <!-- SERVIÇOS -->
 <section class="sec" id="servicos">
@@ -375,40 +408,36 @@ section{position:relative;z-index:2}
   <div class="wrap">
     <div class="sec-head center rv">
       <h2>O que sai do nosso <em>switcher</em></h2>
-      <p>Da CONMEBOL ao seu evento. Um recorte de produções reais que passaram pela BRN.</p>
+      <p>Um recorte de produções reais que passaram pela BRN.</p>
     </div>
 
-    <div class="clients rv">
-      <span class="clients-label">Quem já esteve no ar com a BRN</span>
-      <div class="clients-row">
-        <span>CONMEBOL</span><i></i><span>Clube Atlético Mineiro</span><i></i><span>O Antagonista</span><i></i><span>Cubo</span><i></i><span>EuroConsumers</span>
-      </div>
-    </div>
-
-    <div class="reel rv">
-      <div class="reel-stage" id="reelStage" data-hover>
-        <video id="reelVid" src="assets/vinheta.mp4" loop playsinline poster="assets/showcase/vin-2.jpg"></video>
-        <div class="play"><div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-      </div>
-    </div>
-
-    <div class="pf-grid">
-      <figure class="pf pf-wide rv" data-d="1" data-hover><img src="assets/portfolio/p-conmebol-set.jpg" alt="Set de transmissão CONMEBOL"><figcaption><b>CONMEBOL</b><span>Set de transmissão multicâmera</span></figcaption></figure>
-      <figure class="pf rv" data-d="2" data-hover><img src="assets/portfolio/p-cam.jpg" alt="Entrevista Atlético Mineiro"><figcaption><b>Clube Atlético Mineiro</b><span>Entrevista em estúdio</span></figcaption></figure>
-      <figure class="pf rv" data-d="1" data-hover><img src="assets/portfolio/p-switcher.jpg" alt="Direção de corte ao vivo"><figcaption><b>Direção de corte</b><span>Transmissão ao vivo</span></figcaption></figure>
-      <figure class="pf rv" data-d="2" data-hover><img src="assets/portfolio/p-greenscreen.jpg" alt="Chroma key"><figcaption><b>Chroma key</b><span>Estúdio em cliente</span></figcaption></figure>
-      <figure class="pf rv" data-d="3" data-hover><img src="assets/portfolio/p-podcast.jpg" alt="Estúdio de podcast"><figcaption><b>Podcast</b><span>Montagem em cliente</span></figcaption></figure>
-      <figure class="pf pf-wide rv" data-d="1" data-hover><img src="assets/portfolio/p-hex.jpg" alt="Estúdio acústico"><figcaption><b>Estúdio de gravação</b><span>Tratamento acústico e green screen</span></figcaption></figure>
+    <div class="mosaic-grid rv">
+      <figure class="mz m2x1" data-hover><img src="assets/portfolio/p-conmebol-set.jpg" alt="CONMEBOL"><figcaption><b>CONMEBOL</b><span>Set de transmissão</span></figcaption></figure>
+      <figure class="mz" data-hover><img src="assets/portfolio/p-cam.jpg" alt="CONMEBOL"><figcaption><b>CONMEBOL</b><span>Entrevista</span></figcaption></figure>
+      <figure class="mz m1x2" data-hover><img src="assets/portfolio/p-show.jpg" alt="Show ao vivo"><figcaption><b>Show ao vivo</b><span>Captação multicâmera</span></figcaption></figure>
+      <figure class="mz m2x1" data-hover><img src="assets/portfolio/p-live.jpg" alt="Transmissão ao vivo"><figcaption><b>Transmissão ao vivo</b><span>Direção de corte</span></figcaption></figure>
+      <figure class="mz" data-hover><img src="assets/portfolio/p-event.jpg" alt="Evento corporativo"><figcaption><b>Evento corporativo</b><span>Cobertura completa</span></figcaption></figure>
+      <figure class="mz" data-hover><img src="assets/portfolio/p-redroom.jpg" alt="Entrevista"><figcaption><b>Entrevista</b><span>Estúdio multicâmera</span></figcaption></figure>
+      <figure class="mz" data-hover><img src="assets/portfolio/p-switcher.jpg" alt="Direção ao vivo"><figcaption><b>Direção ao vivo</b><span>Switcher</span></figcaption></figure>
+      <a class="mz m2x1 mz-more" href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20ver%20mais%20do%20portf%C3%B3lio%20da%20BRN." data-hover><span class="more-plus">E muito +</span><span class="more-sub">Mais de 500 produções no ar</span></a>
     </div>
   </div>
 </section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="mq-track">
+    <span>Transmissão ao vivo</span><span>Captação multicâmera</span><span>Estúdio de gravação</span><span>Eventos corporativos</span><span>Podcast</span><span>Pós-produção</span>
+    <span>Transmissão ao vivo</span><span>Captação multicâmera</span><span>Estúdio de gravação</span><span>Eventos corporativos</span><span>Podcast</span><span>Pós-produção</span>
+  </div>
+</div>
 
 <!-- ESTÚDIO / SOBRE -->
 <section class="sec about" id="estudio">
   <div class="wrap about-grid">
     <div class="about-media rv" data-hover>
       <span class="lb t"></span><span class="lb b"></span>
-      <video autoplay muted loop playsinline poster="assets/portfolio/p-setup.jpg"><source src="assets/hero-client.mp4" type="video/mp4"></video>
+      <video autoplay muted loop playsinline poster="assets/portfolio/p-show.jpg"><source src="assets/hero-mix.mp4" type="video/mp4"></video>
     </div>
     <div class="about rv" data-d="1">
       <h2>Tecnologia de broadcast,<br>cuidado de gente que ama o ofício</h2>
@@ -440,7 +469,7 @@ section{position:relative;z-index:2}
 <section class="sec cta" id="contato">
   <span class="neb neb1" style="position:absolute;top:-40%;left:30%;opacity:.4"></span>
   <div class="wrap cta-inner rv">
-    <h2>Coloque a sua marca <em>no ar</em></h2>
+    <h2>Coloque a sua<br class="br-m"> marca<br class="br-d"> <em>no ar</em></h2>
     <p>Conte o que você precisa transmitir, gravar ou produzir. A gente monta a estrutura ideal e cuida de tudo, do projeto ao "estamos no ar".</p>
     <div class="hero-actions" style="justify-content:center">
       <a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="btn btn-wine" data-hover>Falar no WhatsApp
@@ -589,10 +618,12 @@ if(!reduce){
 /* ---------- REEL PLAY ---------- */
 const reelStage = document.getElementById('reelStage');
 const reelVid = document.getElementById('reelVid');
-reelStage.addEventListener('click', ()=>{
-  if(reelVid.paused){ reelVid.muted=false; reelVid.play(); reelStage.classList.add('playing'); }
-  else { reelVid.pause(); reelStage.classList.remove('playing'); }
-});
+if(reelStage && reelVid){
+  reelStage.addEventListener('click', ()=>{
+    if(reelVid.paused){ reelVid.muted=false; reelVid.play(); reelStage.classList.add('playing'); }
+    else { reelVid.pause(); reelStage.classList.remove('playing'); }
+  });
+}
 /* thumb hover videos */
 document.querySelectorAll('.thumb video').forEach(v=>{
   const p = v.closest('.thumb');
