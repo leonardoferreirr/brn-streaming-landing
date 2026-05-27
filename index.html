@@ -293,6 +293,10 @@ section{position:relative;z-index:2}
   .btn{cursor:pointer}.wfloat{cursor:pointer}
 }
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}}
+/* cursor normal do mouse */
+.cur,.cur-r{display:none!important}
+body{cursor:auto}
+.btn,.wfloat,.burger,a,[data-hover],.mz,.reel-stage,.thumb,.pf,.svc{cursor:pointer}
 </style>
 </head>
 <body>
@@ -332,22 +336,17 @@ section{position:relative;z-index:2}
   <div class="hero-shade"></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <span class="eyebrow"><span class="live-dot"></span>Estúdio · Transmissão · Eventos</span>
+      <span class="eyebrow">Solução técnica para eventos</span>
       <h1 class="title">
         <span class="ln"><span>Seu evento</span></span>
         <span class="ln"><span>no ar, em</span></span>
         <span class="ln"><span><em>alta definição.</em></span></span>
       </h1>
-      <p class="hero-sub">Transmissão ao vivo multicâmera, captação audiovisual e estúdio de gravação. A BRN coloca a sua marca, o seu evento e a sua história na tela com qualidade de broadcast.</p>
+      <p class="hero-sub">Solução técnica completa para eventos em todo o território nacional. Painel LED, sonorização, iluminação, transmissão, transmissões simultâneas, tradução, Libras, painéis paralelos e muito mais.</p>
       <div class="hero-actions">
         <a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="btn btn-wine" data-hover>Solicitar orçamento
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="#reel" class="btn btn-ghost" data-hover>Ver portfólio</a>
-      </div>
-      <div class="hero-stats">
-        <div><div class="n" data-count="500" data-suf="+">0</div><div class="l">transmissões no ar</div></div>
-        <div><div class="n" data-count="12" data-suf="">0</div><div class="l">câmeras simultâneas</div></div>
-        <div><div class="n" data-count="100" data-suf="%">0</div><div class="l">qualidade broadcast</div></div>
       </div>
     </div>
     <div class="hero-side">
@@ -364,7 +363,7 @@ section{position:relative;z-index:2}
 
 <!-- CLIENT LOGOS -->
 <section class="logos-sec">
-  <p class="logos-title">Marcas que já estiveram no ar com a BRN</p>
+  <p class="logos-title">Clientes atendidos</p>
   <div class="logos-mq">
     <div class="logos-track">
       <img src="assets/logos/conmebol.svg" alt="CONMEBOL"><img src="assets/logos/smartfit.svg" alt="Smart Fit"><img src="assets/logos/hering.svg" alt="Hering"><img src="assets/logos/unilever.svg" alt="Unilever"><img src="assets/logos/sorridents.png" alt="Sorridents" class="logo-sorr"><img src="assets/logos/panasonic.svg" alt="Panasonic"><img src="assets/logos/avon.png" alt="Avon"><img src="assets/logos/fiat.svg" alt="Fiat">
@@ -377,28 +376,22 @@ section{position:relative;z-index:2}
 <section class="sec" id="servicos">
   <div class="wrap">
     <div class="sec-head rv">
-      <h2>Produção audiovisual<br><em>de ponta a ponta</em></h2>
+      <h2>Entrega completa<br><em>de ponta a ponta</em></h2>
       <p>Da captação à entrega final. Estrutura, equipe e tecnologia para qualquer formato, do estúdio ao grande evento.</p>
     </div>
     <div class="svc-grid">
       <article class="svc rv" data-d="1" data-hover><span class="num">01</span>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <h3>Transmissão ao vivo</h3><p>Streaming multicâmera para YouTube, Instagram, plataformas e telões. Direção de corte em tempo real e sinal estável.</p></article>
-      <article class="svc rv" data-d="2" data-hover><span class="num">02</span>
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M3 7h13v10H3zM16 10l5-3v10l-5-3"/></svg></div>
-        <h3>Captação de eventos</h3><p>Congressos, shows, cultos, lançamentos e corporativos. Registramos cada momento com múltiplos ângulos e áudio limpo.</p></article>
-      <article class="svc rv" data-d="3" data-hover><span class="num">03</span>
+        <h3>Eventos</h3><p>Atendemos a qualquer demanda técnica onde você precisar. Congressos, palestras, corporativo, shows, cultos, esporte, lançamentos e muito mais.</p></article>
+      <article class="svc rv" data-d="2" data-hover><span class="num">02</span>
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg></div>
-        <h3>Estúdio de gravação</h3><p>Ambiente equipado para podcast, entrevistas, vídeos e chroma. Estrutura pronta para você só chegar e gravar.</p></article>
+        <h3>Estúdio audiovisual</h3><p>Ambiente equipado para podcast, entrevistas, vídeos e chroma. Estrutura pronta para você só chegar e gravar.</p></article>
+      <article class="svc rv" data-d="3" data-hover><span class="num">03</span>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <h3>Transmissão ao vivo</h3><p>Streaming multicâmeras para qualquer plataforma e até transmissões simultâneas para salas e painéis. Direção de corte em tempo real.</p></article>
       <article class="svc rv" data-d="1" data-hover><span class="num">04</span>
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M2 6h20v12H2zM7 6V3h10v3"/><circle cx="12" cy="12" r="3"/></svg></div>
         <h3>Vídeos institucionais</h3><p>Filmes de marca, publicidade e conteúdo para redes. Roteiro, captação e direção que comunicam com força.</p></article>
-      <article class="svc rv" data-d="2" data-hover><span class="num">05</span>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M4 4h16v16H4zM4 9h16M9 4v16"/><path d="m13 12 4 2-4 2v-4z"/></svg></div>
-        <h3>Pós-produção</h3><p>Edição, motion graphics, color grading e tratamento de áudio. O acabamento que separa o amador do profissional.</p></article>
-      <article class="svc rv" data-d="3" data-hover><span class="num">06</span>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.9"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-        <h3>Estrutura completa</h3><p>Switcher, iluminação, áudio, telões e equipe técnica. Entregamos a operação inteira, do projeto ao "no ar".</p></article>
     </div>
     <div class="sec-cta rv"><a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="btn btn-wine" data-hover>Quero um orçamento <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
@@ -437,21 +430,9 @@ section{position:relative;z-index:2}
 
 <!-- ESTÚDIO / SOBRE -->
 <section class="sec about" id="estudio">
-  <div class="wrap about-grid">
-    <div class="about-media rv" data-hover>
-      <span class="lb t"></span><span class="lb b"></span>
-      <video autoplay muted loop playsinline poster="assets/portfolio/p-show.jpg"><source src="assets/hero-mix.mp4" type="video/mp4"></video>
-    </div>
-    <div class="about rv" data-d="1">
-      <h2>Tecnologia de broadcast,<br>cuidado de gente que ama o ofício</h2>
-      <p>A BRN Streaming nasceu para entregar o nível de TV para qualquer marca, evento ou criador. Estrutura de transmissão profissional, estúdio equipado e uma equipe que trata cada projeto como se fosse a final do campeonato.</p>
-      <ul class="about-list">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Mesa de corte e switcher multicâmera</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Áudio, iluminação e cenografia próprios</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Equipe técnica experiente em ao vivo</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Localizado em São Paulo, atendendo todo o Brasil</li>
-      </ul>
-      <div style="margin-top:2rem"><a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20conhecer%20o%20est%C3%BAdio%20da%20BRN." class="btn btn-ghost" data-hover>Agendar uma visita</a></div>
+  <div class="wrap">
+    <div class="about-media rv" data-hover style="aspect-ratio:16/9">
+      <video controls autoplay muted loop playsinline poster="assets/reel-poster.jpg"><source src="assets/reel-master.mp4" type="video/mp4"></video>
     </div>
   </div>
 </section>
@@ -461,7 +442,7 @@ section{position:relative;z-index:2}
   <div class="wrap stats-grid">
     <div class="stat rv" data-d="1"><div class="n" data-count="500" data-suf="+">0</div><div class="l">eventos no ar</div></div>
     <div class="stat rv" data-d="2"><div class="n" data-count="12" data-suf="">0</div><div class="l">câmeras simultâneas</div></div>
-    <div class="stat rv" data-d="3"><div class="n" data-count="8" data-suf="+">0</div><div class="l">anos de estrada</div></div>
+    <div class="stat rv" data-d="3"><div class="n" data-count="15" data-suf="">0</div><div class="l">anos de estrada</div></div>
     <div class="stat rv" data-d="4"><div class="n" data-count="100" data-suf="%">0</div><div class="l">sinal estável</div></div>
   </div>
 </section>
@@ -473,7 +454,7 @@ section{position:relative;z-index:2}
   <span class="neb neb1" style="position:absolute;top:-40%;left:30%;opacity:.4"></span>
   <div class="wrap cta-inner rv">
     <h2>Coloque a sua<br class="br-m"> marca<br class="br-d"> <em>no ar</em></h2>
-    <p>Conte o que você precisa transmitir, gravar ou produzir. A gente monta a estrutura ideal e cuida de tudo, do projeto ao "estamos no ar".</p>
+    <p>Você conta o formato, o público, o local e a data. Desenhamos a estrutura que o evento demanda e devolvemos um orçamento sob medida, eliminando intermediários e entregando resultado final de excelência.</p>
     <div class="hero-actions" style="justify-content:center">
       <a href="https://wa.me/5511937193435?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20com%20a%20BRN%20Streaming." class="btn btn-wine" data-hover>Falar no WhatsApp
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -488,15 +469,15 @@ section{position:relative;z-index:2}
     <div class="footer-grid">
       <div>
         <img src="assets/logo-white.png" alt="BRN Streaming" class="logo">
-        <p>Estúdio de gravação, transmissão ao vivo e produção audiovisual para eventos em geral. Qualidade de broadcast para a sua marca.</p>
+        <p>Solução técnica completa para eventos em todo o território nacional.</p>
       </div>
       <div>
         <h4>Serviços</h4>
         <ul>
+          <li><a href="#servicos">Eventos</a></li>
+          <li><a href="#servicos">Estúdio audiovisual</a></li>
           <li><a href="#servicos">Transmissão ao vivo</a></li>
-          <li><a href="#servicos">Captação de eventos</a></li>
-          <li><a href="#servicos">Estúdio de gravação</a></li>
-          <li><a href="#servicos">Pós-produção</a></li>
+          <li><a href="#servicos">Vídeos institucionais</a></li>
         </ul>
       </div>
       <div>
@@ -511,7 +492,7 @@ section{position:relative;z-index:2}
     </div>
     <div class="foot-bottom">
       <span>© 2026 BRN Streaming. Todos os direitos reservados.</span>
-      <span>No ar, sempre.</span>
+      <span>Solução técnica completa para eventos.</span>
     </div>
   </div>
 </footer>
