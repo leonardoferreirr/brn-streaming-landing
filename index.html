@@ -301,6 +301,35 @@ body{cursor:auto}
 </head>
 <body>
 
+<!-- BRN intro overlay (abertura): logo segura e o wipe diagonal revela o site. Toca 1x por sessao. -->
+<div id="brn-intro" aria-hidden="true"><video id="brn-intro-vid" muted playsinline preload="auto"></video></div>
+<style>
+#brn-intro{display:none;position:fixed;inset:0;z-index:99999;background:#84213c;align-items:center;justify-content:center;overflow:hidden;cursor:none}
+#brn-intro.brn-done{opacity:0;visibility:hidden;transition:opacity .4s ease;pointer-events:none}
+#brn-intro-vid{width:100%;height:100%;object-fit:cover}
+</style>
+<script>
+(function(){
+  var ov=document.getElementById('brn-intro'), v=document.getElementById('brn-intro-vid');
+  if(!ov||!v) return;
+  // 1x por sessao
+  try{ if(sessionStorage.getItem('brnIntroSeen')){ ov.remove(); return; } }catch(e){}
+  // respeita quem pediu menos movimento
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ ov.remove(); return; }
+  // Safari/iOS usa HEVC com alpha; o resto usa WebM (VP9 com alpha)
+  var ua=navigator.userAgent||'';
+  var isSafari=/^((?!chrome|android|crios|fxios|edg|opr).)*safari/i.test(ua);
+  v.src = isSafari ? 'assets/brn-intro.mov' : 'assets/brn-intro.webm';
+  ov.style.display='flex';
+  function done(){ try{sessionStorage.setItem('brnIntroSeen','1');}catch(e){} ov.classList.add('brn-done'); setTimeout(function(){ if(ov&&ov.remove) ov.remove(); },420); }
+  v.addEventListener('ended', done);
+  v.addEventListener('error', done);
+  // failsafe: se travar/autoplay bloqueado, revela o site
+  setTimeout(function(){ if(document.body.contains(ov)) done(); }, 6000);
+  var p=v.play(); if(p&&typeof p.catch==='function'){ p.catch(function(){ done(); }); }
+})();
+</script>
+
 <div class="bg-fx"><span class="neb neb1"></span><span class="neb neb2"></span></div>
 <div class="noise"></div>
 <div class="cur"></div><div class="cur-r"></div>
